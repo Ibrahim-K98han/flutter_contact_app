@@ -34,113 +34,133 @@ class _NewContactPageState extends State<NewContactPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('New Contact Page'),
+        actions: [
+          IconButton(
+              onPressed: _saveContact,
+              icon: Icon(Icons.save)
+          )
+        ],
       ),
       body: Form(
-        child: ListView(
-          children: [
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: 'Name',
-                prefixIcon: Icon(Icons.person),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: [
+              TextFormField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Name',
+                  prefixIcon: Icon(Icons.person),
+                ),
+                validator: (value){
+                  if(value == null || value.isEmpty){
+                    return 'This field must not be empty';
+                  }
+                  if(value.length > 20){
+                    return 'Name must be in 20 character';
+                  }
+                },
               ),
-              validator: (value){
-                if(value == null || value.isEmpty){
-                  return 'This field must not be empty';
-                }
-                if(value.length > 20){
-                  return 'Name must be in 20 character';
-                }
-              },
-            ),
-            SizedBox(height: 10,),
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: 'Phone',
-                prefixIcon: Icon(Icons.phone),
+              SizedBox(height: 7,),
+              TextFormField(
+                controller: numberController,
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Phone',
+                  prefixIcon: Icon(Icons.phone),
+                ),
+                validator: (value){
+                  if(value == null || value.isEmpty){
+                    return 'This field must not be empty';
+                  }
+                  if(value.length > 11){
+                    return 'Name must be in 11 character';
+                  }
+                },
               ),
-              validator: (value){
-                if(value == null || value.isEmpty){
-                  return 'This field must not be empty';
-                }
-                if(value.length > 11){
-                  return 'Name must be in 11 character';
-                }
-              },
-            ),
-            SizedBox(height: 10,),
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.email),
+              SizedBox(height: 7,),
+              TextFormField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
+                ),
+                validator: (value){
+                  if(value == null || value.isEmpty){
+                    return 'This field must not be empty';
+                  }
+                },
               ),
-              validator: (value){
-                if(value == null || value.isEmpty){
-                  return 'This field must not be empty';
-                }
-              },
-            ),
-            SizedBox(height: 10,),
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: 'Address',
-                prefixIcon: Icon(Icons.place),
+              SizedBox(height: 7,),
+              TextFormField(
+                controller: addressController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Address',
+                  prefixIcon: Icon(Icons.place),
+                ),
+                validator: (value){
+                  if(value == null || value.isEmpty){
+                    return 'This field must not be empty';
+                  }
+                },
               ),
-              validator: (value){
-                if(value == null || value.isEmpty){
-                  return 'This field must not be empty';
-                }
-              },
-            ),
-            SizedBox(height: 10,),
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: 'Company',
-                prefixIcon: Icon(Icons.work),
+              SizedBox(height: 7,),
+              TextFormField(
+                controller: companyController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Company',
+                  prefixIcon: Icon(Icons.work),
+                ),
+                validator: (value){
+                  if(value == null || value.isEmpty){
+                    return 'This field must not be empty';
+                  }
+                  if(value.length > 20){
+                    return 'Name must be in 20 character';
+                  }
+                },
               ),
-              validator: (value){
-                if(value == null || value.isEmpty){
-                  return 'This field must not be empty';
-                }
-                if(value.length > 20){
-                  return 'Name must be in 20 character';
-                }
-              },
-            ),
-            SizedBox(height: 10,),
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: 'Designation',
-                prefixIcon: Icon(Icons.description),
+              SizedBox(height: 7,),
+              TextFormField(
+                controller: designationController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Designation',
+                  prefixIcon: Icon(Icons.description),
+                ),
+                validator: (value){
+                  if(value == null || value.isEmpty){
+                    return 'This field must not be empty';
+                  }
+                },
               ),
-              validator: (value){
-                if(value == null || value.isEmpty){
-                  return 'This field must not be empty';
-                }
-              },
-            ),
-            SizedBox(height: 10,),
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: 'Website',
-                prefixIcon: Icon(Icons.web),
+              SizedBox(height: 7,),
+              TextFormField(
+                controller: websiteController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Website',
+                  prefixIcon: Icon(Icons.web),
+                ),
+                validator: (value){
+                  if(value == null || value.isEmpty){
+                    return 'This field must not be empty';
+                  }
+                },
               ),
-              validator: (value){
-                if(value == null || value.isEmpty){
-                  return 'This field must not be empty';
-                }
-              },
-            ),
-            SizedBox(height: 10,),
-          ],
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void _saveContact() {
+
   }
 }
