@@ -13,9 +13,6 @@ class _NewContactPageState extends State<NewContactPage> {
   final numberController = TextEditingController();
   final emailController = TextEditingController();
   final addressController = TextEditingController();
-  final companyController = TextEditingController();
-  final designationController = TextEditingController();
-  final websiteController = TextEditingController();
 
   final from_key = GlobalKey<FormState>();
 
@@ -26,9 +23,6 @@ class _NewContactPageState extends State<NewContactPage> {
     numberController.dispose();
     emailController.dispose();
     addressController.dispose();
-    companyController.dispose();
-    designationController.dispose();
-    websiteController.dispose();
     super.dispose();
   }
 
@@ -112,51 +106,6 @@ class _NewContactPageState extends State<NewContactPage> {
                   }
                 },
               ),
-              SizedBox(height: 7,),
-              TextFormField(
-                controller: companyController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Company',
-                  prefixIcon: Icon(Icons.work),
-                ),
-                validator: (value){
-                  if(value == null || value.isEmpty){
-                    return 'This field must not be empty';
-                  }
-                  if(value.length > 20){
-                    return 'Name must be in 20 character';
-                  }
-                },
-              ),
-              SizedBox(height: 7,),
-              TextFormField(
-                controller: designationController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Designation',
-                  prefixIcon: Icon(Icons.description),
-                ),
-                validator: (value){
-                  if(value == null || value.isEmpty){
-                    return 'This field must not be empty';
-                  }
-                },
-              ),
-              SizedBox(height: 7,),
-              TextFormField(
-                controller: websiteController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Website',
-                  prefixIcon: Icon(Icons.web),
-                ),
-                validator: (value){
-                  if(value == null || value.isEmpty){
-                    return 'This field must not be empty';
-                  }
-                },
-              ),
             ],
           ),
         ),
@@ -171,9 +120,6 @@ class _NewContactPageState extends State<NewContactPage> {
           number: numberController.text,
           email: emailController.text,
           address: addressController.text,
-          company: companyController.text,
-          designation: designationController.text,
-          website: websiteController.text
 
       );
       print(contact.toString());
