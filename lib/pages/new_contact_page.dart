@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_contact_app/models/contact_model.dart';
 
 class NewContactPage extends StatefulWidget {
   static const String routeName = '/new_contact';
@@ -15,6 +16,8 @@ class _NewContactPageState extends State<NewContactPage> {
   final companyController = TextEditingController();
   final designationController = TextEditingController();
   final websiteController = TextEditingController();
+
+  final from_key = GlobalKey<FormState>();
 
 
   @override
@@ -42,6 +45,7 @@ class _NewContactPageState extends State<NewContactPage> {
         ],
       ),
       body: Form(
+        key: from_key,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: ListView(
@@ -161,6 +165,18 @@ class _NewContactPageState extends State<NewContactPage> {
   }
 
   void _saveContact() {
+    if(from_key.currentState!.validate()){
+      final contact = ContactModel(
+          name: nameController.text,
+          number: numberController.text,
+          email: emailController.text,
+          address: addressController.text,
+          company: companyController.text,
+          designation: designationController.text,
+          website: websiteController.text
 
+      );
+      print(contact.toString());
+    }
   }
 }
