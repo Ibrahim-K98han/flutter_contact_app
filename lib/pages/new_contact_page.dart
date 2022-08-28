@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_contact_app/db/db_helper.dart';
 import 'package:flutter_contact_app/models/contact_model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class NewContactPage extends StatefulWidget {
   static const String routeName = '/new_contact';
@@ -13,6 +18,10 @@ class _NewContactPageState extends State<NewContactPage> {
   final numberController = TextEditingController();
   final emailController = TextEditingController();
   final addressController = TextEditingController();
+  String? _dob;
+  String? _genderGroupValue;
+  String? _imagePath;
+  ImageSource _imageSource = ImageSource.camera;
 
   final from_key = GlobalKey<FormState>();
 
@@ -106,6 +115,75 @@ class _NewContactPageState extends State<NewContactPage> {
                   }
                 },
               ),
+              SizedBox(height: 10,),
+              Card(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                        onPressed: _selectDate,
+                        child: Text('Select Date of Birth')
+                    ),
+                    Text(_dob==null?'No Date Chose':_dob!),
+                  ],
+                ),
+              ),
+              Card(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Select Gender'),
+                    Radio<String>(
+                      value: 'Male',
+                      groupValue: _genderGroupValue,
+                      onChanged: (value){
+                        setState((){
+                          _genderGroupValue = value;
+                        });
+                      }),
+                    Text('Male'),
+                    Radio<String>(
+                        value: 'Female',
+                        groupValue: _genderGroupValue,
+                        onChanged: (value){
+                          setState((){
+                            _genderGroupValue = value;
+                          });
+                        }),
+                    Text('Female')
+                  ],
+                ),
+              ),
+              Card(
+                elevation: 5,
+                child: _imagePath == null ? Image.asset(
+                  'images/person.png',height: 100,width: 100,fit: BoxFit.contain
+                ): Image.file(
+                  File(_imagePath!),
+                  height: 100,width: 100,fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(height: 20,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: (){
+                      _imageSource = ImageSource.camera;
+                      _getImage();
+                    },
+                    child: Text('Camers'),
+                  ),
+                  SizedBox(width: 20,),
+                  ElevatedButton(
+                    onPressed: (){
+                      _imageSource = ImageSource.gallery;
+                      _getImage();
+                    },
+                    child: Text('Gallery'),
+                  )
+                ],
+              )
             ],
           ),
         ),
@@ -113,16 +191,44 @@ class _NewContactPageState extends State<NewContactPage> {
     );
   }
 
-  void _saveContact() {
+  void _saveContact() async{
     if(from_key.currentState!.validate()){
       final contact = ContactModel(
           name: nameController.text,
           number: numberController.text,
           email: emailController.text,
           address: addressController.text,
-
       );
       print(contact.toString());
+      final rowId = await DBHelper.insertContact(contact);
+      if(rowId>0){
+        Navigator.pop(context);
+      }
+    }
+  }
+
+  void _selectDate() async{
+    final selectDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now()
+    );
+    if(selectDate !=null){
+      setState((){
+        _dob=DateFormat('dd/MM/yyyy').format(selectDate);
+      });
+    }
+  }
+
+  void _getImage() async{
+    final selectImage = await ImagePicker().pickImage(
+      source: _imageSource
+    );
+    if(selectImage !=null){
+      setState((){
+        _imagePath = selectImage.path;
+      });
     }
   }
 }
