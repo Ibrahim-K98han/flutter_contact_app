@@ -198,11 +198,15 @@ class _NewContactPageState extends State<NewContactPage> {
           number: numberController.text,
           email: emailController.text,
           address: addressController.text,
+          dob: _dob,
+          gender: _genderGroupValue,
+          image: _imagePath
       );
       print(contact.toString());
       final rowId = await DBHelper.insertContact(contact);
-      if(rowId>0){
-        Navigator.pop(context);
+      if(rowId > 0){
+        contact.id = rowId;
+        Navigator.pop(context, contact);
       }
     }
   }

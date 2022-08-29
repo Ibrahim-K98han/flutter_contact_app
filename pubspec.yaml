@@ -39,6 +39,7 @@ dependencies:
   intl:
   image_picker:
   path:
+  provider:
 
 dev_dependencies:
   flutter_test:
