@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_contact_app/db/db_helper.dart';
 import 'package:flutter_contact_app/models/contact_model.dart';
+import 'package:flutter_contact_app/provider/contact_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class NewContactPage extends StatefulWidget {
   static const String routeName = '/new_contact';
@@ -202,11 +204,11 @@ class _NewContactPageState extends State<NewContactPage> {
           gender: _genderGroupValue,
           image: _imagePath
       );
-      print(contact.toString());
-      final rowId = await DBHelper.insertContact(contact);
-      if(rowId > 0){
-        contact.id = rowId;
-        Navigator.pop(context, contact);
+      final status = await Provider
+          .of<ContactProvider>(context, listen: false)
+          .addNewContact(contact);
+      if(status){
+        Navigator.pop(context);
       }
     }
   }

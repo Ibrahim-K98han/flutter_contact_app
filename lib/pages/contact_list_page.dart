@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contact_app/db/db_helper.dart';
 import 'package:flutter_contact_app/pages/new_contact_page.dart';
+import 'package:flutter_contact_app/provider/contact_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../models/contact_model.dart';
 
@@ -14,17 +16,8 @@ class ContactListPage extends StatefulWidget {
 }
 
 class _ContactListPageState extends State<ContactListPage> {
-  List<ContactModel> contactList = [];
 
-  @override
-  void initState() {
-    DBHelper.getAllContacts().then((value) {
-      setState(() {
-        contactList = value;
-      });
-    });
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,32 +25,27 @@ class _ContactListPageState extends State<ContactListPage> {
       appBar: AppBar(
         title: Text('Contact List'),
       ),
-      body: ListView.builder(
-          itemCount: contactList.length,
-          itemBuilder: (context, index) {
-            final contact = contactList[index];
-            return ListTile(
-              title: Text(contact.name),
-              subtitle: Text(contact.number),
-              trailing: IconButton(
-                icon: Icon(
-                    contact.favorite ? Icons.favorite : Icons.favorite_border),
-                onPressed: () {},
-              ),
-            );
-          }),
+      body: Consumer<ContactProvider>(
+        builder: (context, provider, _) => ListView.builder(
+            itemCount: provider.contactList.length,
+            itemBuilder: (context, index) {
+              final contact = provider.contactList[index];
+              return ListTile(
+                title: Text(contact.name),
+                subtitle: Text(contact.number),
+                trailing: IconButton(
+                  icon: Icon(
+                      contact.favorite ? Icons.favorite : Icons.favorite_border),
+                  onPressed: () {
+
+                  },
+                ),
+              );
+            }),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator
-              .pushNamed(context, NewContactPage.routeName)
-              .then((value){
-                if(value !=null){
-                  final contact = value as ContactModel;
-                  setState((){
-                    contactList.add(contact);
-                  });
-                }
-          });
+          Navigator.pushNamed(context, NewContactPage.routeName);
         },
         child: Icon(Icons.add),
         tooltip: 'Add New Contact',
